@@ -116,17 +116,18 @@ class App extends Component {
     }
     if (this.accounts[0] !== this.state.admin) {
       return (
-        <div>
+        <div className="bg-slate-700">
               <UserScreen account={this.accounts[0]}/> 
               CURRENT BALANCE: <h1>{this.state.current_tokens_user}</h1>
               <input type="text" name="tokens_amount" onChange={(amount) => this.setState({amount_tokens: amount.target.value})}/>
               <button onClick={() => this.buy_tokens()}>Buy tokens</button>
-              <button onClick={() => this.see_whitelist_status()}>See if im on the whitelist</button>      
+              <button onClick={() => this.see_whitelist_status()}>See if im on the whitelist</button>   
+              <h1 className="text-red-400"> AAAAAAAAAAAAAAA</h1>   
         </div> 
       )
     } else {
       return  ( 
-        <div>
+        <div className="bg-slate-700">
            <AdminScreen account={this.accounts[0]} whitelist_function={() => this.change_status_whitelist()}  />
            Whitelist address: <input type="text" name="change_address_whitelisted" onChange={(text) => this.setState({input: text.target.value})}/>
 
