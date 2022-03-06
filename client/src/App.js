@@ -19,6 +19,33 @@ import "./App.css";
 class App extends Component {
   state = { loaded:false, account:null, admin:null, input:null, amount_tokens: null, current_tokens_user:0 };
 
+  constructor () {
+    super()
+    this.button = {
+      backgroundColor:'cyan',
+      color:'black',
+      padding:15,
+      borderRadius:25,
+      borderWidth:0,
+      fontSize:30,
+      fontFamily:'arial',
+      marginTop:20,
+      cursor:'pointer',
+      width:'50%'
+    }
+    this.input = {
+      backgroundColor:'cyan',
+      color:'black',
+      padding:5,
+      borderRadius:15,
+      borderWidth:0,
+      fontSize:30,
+      fontFamily:'arial',
+      textAlign:'center',
+      width:'100%'
+    }
+  }
+
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -68,6 +95,14 @@ class App extends Component {
     this.setState({account:this.accounts[0], current_tokens_user: await this.TokenInstance.methods.balanceOf(this.accounts[0]).call()})
   }
 
+  getWindowDimensions = () => {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  }
+
   set_load_screen = () => {
     return <LoadingScreen/>
   }
@@ -86,14 +121,18 @@ class App extends Component {
       await this.WhitelistInstance.methods.whitelisten(input).send({from:this.accounts[0]})
 
     } catch (e) {
-      console.log(e.message)
+      alert(e.message)
     }
   }
 
   see_whitelist_status = async () => {
     let result = await this.WhitelistInstance.methods.whitelisted(this.accounts[0]).call()
 
-    console.log(result)
+    if (result) {
+      alert('Congratulations! you are in the whitelist, buy tokens !!!')
+    } else {
+      alert("Sorry, you aren't in the whitelist")
+    }
   }
 
   buy_tokens = async () => {
@@ -116,22 +155,32 @@ class App extends Component {
     }
     if (this.accounts[0] !== this.state.admin) {
       return (
-        <div className="bg-slate-700">
-              <UserScreen account={this.accounts[0]}/> 
-              CURRENT BALANCE: <h1>{this.state.current_tokens_user}</h1>
-              <input type="text" name="tokens_amount" onChange={(amount) => this.setState({amount_tokens: amount.target.value})}/>
-              <button onClick={() => this.buy_tokens()}>Buy tokens</button>
-              <button onClick={() => this.see_whitelist_status()}>See if im on the whitelist</button>   
-              <h1 className="text-red-400"> AAAAAAAAAAAAAAA</h1>   
-        </div> 
+        <body style={{height:this.getWindowDimensions()['height'], justifyContent:'center', display:"flex", flexDirection:'column', padding:50, background:'linear-gradient(to bottom, black, #111D54)', alignItems:'center', textAlign:'center', marginTop:-22}}>
+                <div style={{boxShadow: "10px 10px 40px 30px cyan", maxWidth:800, borderRadius:25, padding:60, backgroundColor:'#0B1130', display:'flex', flexDirection:'column', textAlign:'center', justifyContent:'center'}}>
+                <UserScreen account={this.accounts[0]}/> 
+                <h2>Current balance</h2>
+                <h1 style={{color:'white', fontSize:72}}>{this.state.current_tokens_user} TOKENS</h1>
+                <h3 style={{color:'cyan'}}>Current price: {this.state.amount_tokens} WEI</h3>
+                <input style={this.input} placeholder="INSERT AMOUNT OF TOKENS" type="text" name="tokens_amount" onChange={(amount) => this.setState({amount_tokens: amount.target.value})}/>
+                <button style={this.button} onClick={() => this.buy_tokens()}>BUY TOKENS</button>
+                <h2 style={{color:'cyan', cursor:'pointer'}} onClick={() => this.see_whitelist_status()}>I'm on whitelist?</h2> 
+                </div>
+        </body>
       )
     } else {
       return  ( 
-        <div className="bg-slate-700">
-           <AdminScreen account={this.accounts[0]} whitelist_function={() => this.change_status_whitelist()}  />
-           Whitelist address: <input type="text" name="change_address_whitelisted" onChange={(text) => this.setState({input: text.target.value})}/>
+        <body>
 
-        </div>
+          <body style={{height:this.getWindowDimensions()['height'], display:"flex", flexDirection:'column', padding:50, background:'linear-gradient(to bottom, black, #111D54)', alignItems:'center', textAlign:'center', marginTop:-22}}>
+                  <div style={{boxShadow: "10px 10px 40px 30px cyan",borderRadius:25, padding:60, backgroundColor:'#0B1130', display:'flex', flexDirection:'column', textAlign:'center', justifyContent:'center'}}>
+                  <AdminScreen account={this.accounts[0]} button_style={this.button} whitelist_function={() => this.change_status_whitelist()}  />
+                  <h2 style={{color:'white'}}>Current balance</h2>
+                  <input type="text" placeholder="ADDRESS" style={this.input} name="change_address_whitelisted" onChange={(text) => this.setState({input: text.target.value})}/>
+
+                  </div>
+          </body>
+
+        </body>
       )
     }
 

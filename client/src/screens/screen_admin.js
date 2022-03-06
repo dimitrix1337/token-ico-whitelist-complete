@@ -9,11 +9,10 @@ export default class AdminScreen extends Component {
         return (
 
             <div className="App">
-                <h1>INITIAL COIN OFFERRING FOR MTK TOKEN</h1>
-                <h2>admin mode</h2>
-                <h2>THIS VIEW IS ONLY FOR ADMINS! YES YOU ARE ONE</h2>
-                You actual address: <h1>{this.props.account}</h1>
-                <button onClick={() => this.props.whitelist_function()}>CHANGE STATUS</button>
+                <h1 style={{fontSize:60, color:'cyan', fontFamily:'Neon 80s'}}>Neon Coin</h1>
+                <h2  style={{color:'white'}}>ADMIN mode</h2>
+                <h1 style={{color:'cyan'}}>{this.props.account}</h1>
+                <button style={this.props.button_style} onClick={() => this.props.whitelist_function()}>CHANGE STATUS</button>
             </div>
 
         )

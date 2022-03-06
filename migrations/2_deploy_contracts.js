@@ -8,7 +8,7 @@ module.exports = async function(deployer) {
   
   await deployer.deploy(MyToken);
   await deployer.deploy(whitelist)
-  await deployer.deploy(MyTokenSale, 1, addr[0], MyToken.address, whitelist.address);
+  await deployer.deploy(MyTokenSale, 1, addr[0], MyToken.address, whitelist.address, 1);
   
   const token_instance = await MyToken.deployed()
 
