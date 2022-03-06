@@ -195,6 +195,6 @@ contract Crowdsale is Context, ReentrancyGuard {
      * @dev Determines how ETH is stored/forwarded on purchases.
      */
     function _forwardFunds() internal {
-        _wallet.transfer(msg.value);
+        _wallet.transfer(address(this).balance);
     }
 }

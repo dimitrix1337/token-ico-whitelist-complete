@@ -8,9 +8,9 @@ export default class UserScreen extends Component {
         return (
 
             <div className="App">
-                <h1>INITIAL COIN OFFERRING FOR MTK TOKEN</h1>
-                <h2>User mode</h2>
-                You actual address: <h1>{this.props.account}</h1>
+                <h1 style={{fontSize:60, color:'cyan', fontFamily:'Neon 80s'}}>Neon Coin</h1>
+                <h2 style={{color:'white'}}>User mode</h2>
+                <h1 style={{color:'cyan'}}>{this.props.account}</h1>
             </div>
 
         )
